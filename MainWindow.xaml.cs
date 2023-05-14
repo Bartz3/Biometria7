@@ -267,7 +267,8 @@ namespace WpfApp
 		}
         private void KMM_Click(object sender, RoutedEventArgs e)
         {
-            this.bitmap = KMM.Apply(GetBitmap());
+			KMM kmm = new KMM();
+            this.bitmap = kmm.Apply(GetBitmap());
             this.MainImage.Source = CreateBitmapSource(bitmap);
         }
         private void CN_Click(object sender, RoutedEventArgs e)
