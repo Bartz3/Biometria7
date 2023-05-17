@@ -191,11 +191,11 @@ namespace WpfApp
 		//	this.MainImage.Source = CreateBitmapSource(bitmap);
 		//}
 
-		//private void Otsu_Click(object sender, RoutedEventArgs e)
-		//{
-		//	this.bitmap = Effects.Otsu(this.bitmap);
-		//	this.MainImage.Source = CreateBitmapSource(bitmap);
-		//}
+		private void Otsu_Click(object sender, RoutedEventArgs e)
+		{
+			this.bitmap = Effects.Otsu(this.bitmap);
+			this.MainImage.Source = CreateBitmapSource(bitmap);
+		}
 
 		//private void Reset_Click(object sender, RoutedEventArgs e)
 		//{
@@ -258,7 +258,7 @@ namespace WpfApp
 		}
 
 		private Bitmap bitmap;
-		private const string Filename = "finger4.png";
+		private string Filename = "finger4.png";
 
 		private void K3M_Click(object sender, RoutedEventArgs e)
 		{
@@ -281,7 +281,7 @@ namespace WpfApp
 			ShowMinutiaesCounter(false);
 			this.MainImage.Source = CreateBitmapSource(bitmap);
 		}
-
+		private int prevEnd, prevBif, prevCross;
 		private void ShowMinutiaesCounter(bool reset) //1-reset
 		{
 			if (reset)
@@ -295,6 +295,7 @@ namespace WpfApp
                 EndMin.Content = $"Ending: {mtEnding}";
                 BifMin.Content = $"Bifurcation: {mtBif}";
                 CrossMin.Content = $"Crossing: {mtCross}";
+				prevEnd = mtEnding; prevBif = mtBif;prevCross= mtCross;
             }
 		}
         private void Open_Click(object sender, RoutedEventArgs e)
@@ -306,6 +307,7 @@ namespace WpfApp
             {
 				this.bitmap= new Bitmap(openFileDialog.FileName);
 				this.MainImage.Source = CreateBitmapSource(bitmap);
+				Filename = openFileDialog.FileName;
 
             }
             ShowMinutiaesCounter(true);
