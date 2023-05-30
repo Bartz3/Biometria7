@@ -10,7 +10,101 @@ namespace WpfApp
 
 	public static class Effects
 	{
-		public unsafe static Bitmap Apply(Bitmap bmp)
+        public static Bitmap KuwaharaBlur(Bitmap Image, int Size)
+        {
+            System.Drawing.Bitmap TempBitmap = Image;
+            System.Drawing.Bitmap NewBitmap = new System.Drawing.Bitmap(TempBitmap.Width, TempBitmap.Height);
+            System.Drawing.Graphics NewGraphics = System.Drawing.Graphics.FromImage(NewBitmap);
+            NewGraphics.DrawImage(TempBitmap, new System.Drawing.Rectangle(0, 0, TempBitmap.Width, TempBitmap.Height), new System.Drawing.Rectangle(0, 0, TempBitmap.Width, TempBitmap.Height), System.Drawing.GraphicsUnit.Pixel);
+            NewGraphics.Dispose();
+            Random TempRandom = new Random();
+            int[] ApetureMinX = { -(Size / 2), 0, -(Size / 2), 0 };
+            int[] ApetureMaxX = { 0, (Size / 2), 0, (Size / 2) };
+            int[] ApetureMinY = { -(Size / 2), -(Size / 2), 0, 0 };
+            int[] ApetureMaxY = { 0, 0, (Size / 2), (Size / 2) };
+            for (int x = 0; x < NewBitmap.Width; ++x)
+            {
+                for (int y = 0; y < NewBitmap.Height; ++y)
+                {
+                    int[] RValues = { 0, 0, 0, 0 };
+                    int[] GValues = { 0, 0, 0, 0 };
+                    int[] BValues = { 0, 0, 0, 0 };
+                    int[] NumPixels = { 0, 0, 0, 0 };
+                    int[] MaxRValue = { 0, 0, 0, 0 };
+                    int[] MaxGValue = { 0, 0, 0, 0 };
+                    int[] MaxBValue = { 0, 0, 0, 0 };
+                    int[] MinRValue = { 255, 255, 255, 255 };
+                    int[] MinGValue = { 255, 255, 255, 255 };
+                    int[] MinBValue = { 255, 255, 255, 255 };
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        for (int x2 = ApetureMinX[i]; x2 < ApetureMaxX[i]; ++x2)
+                        {
+                            int TempX = x + x2;
+                            if (TempX >= 0 && TempX < NewBitmap.Width)
+                            {
+                                for (int y2 = ApetureMinY[i]; y2 < ApetureMaxY[i]; ++y2)
+                                {
+                                    int TempY = y + y2;
+                                    if (TempY >= 0 && TempY < NewBitmap.Height)
+                                    {
+                                        Color TempColor = TempBitmap.GetPixel(TempX, TempY);
+                                        RValues[i] += TempColor.R;
+                                        GValues[i] += TempColor.G;
+                                        BValues[i] += TempColor.B;
+                                        if (TempColor.R > MaxRValue[i])
+                                        {
+                                            MaxRValue[i] = TempColor.R;
+                                        }
+                                        else if (TempColor.R < MinRValue[i])
+                                        {
+                                            MinRValue[i] = TempColor.R;
+                                        }
+
+                                        if (TempColor.G > MaxGValue[i])
+                                        {
+                                            MaxGValue[i] = TempColor.G;
+                                        }
+                                        else if (TempColor.G < MinGValue[i])
+                                        {
+                                            MinGValue[i] = TempColor.G;
+                                        }
+
+                                        if (TempColor.B > MaxBValue[i])
+                                        {
+                                            MaxBValue[i] = TempColor.B;
+                                        }
+                                        else if (TempColor.B < MinBValue[i])
+                                        {
+                                            MinBValue[i] = TempColor.B;
+                                        }
+                                        ++NumPixels[i];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    int j = 0;
+                    int MinDifference = 10000;
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        int CurrentDifference = (MaxRValue[i] - MinRValue[i]) + (MaxGValue[i] - MinGValue[i]) + (MaxBValue[i] - MinBValue[i]);
+                        if (CurrentDifference < MinDifference && NumPixels[i] > 0)
+                        {
+                            j = i;
+                            MinDifference = CurrentDifference;
+                        }
+                    }
+
+                    Color MeanPixel = Color.FromArgb(RValues[j] / NumPixels[j],
+                        GValues[j] / NumPixels[j],
+                        BValues[j] / NumPixels[j]);
+                    NewBitmap.SetPixel(x, y, MeanPixel);
+                }
+            }
+            return NewBitmap;
+        }
+        public unsafe static Bitmap Apply(Bitmap bmp)
 		{
 			int[] matrix =
 			{
