@@ -5,32 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
+        Background="AliceBlue"
         Title="MainWindow" Height="569" Width="800">
-    <Grid>
+    <Grid Margin="0,0,10,8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <StackPanel>
-            <!--<CheckBox Content="AutoRefresh" IsChecked="{Binding IsAutoRefreshOn}"/>-->
+        <ScrollViewer IsEnabled="True">
 
+            <StackPanel Grid.Column="0"  ScrollViewer.VerticalScrollBarVisibility="Auto" Height="879" Width="109">
+                <CheckBox Content="AutoRefresh" IsChecked="{Binding IsAutoRefreshOn}"/>
+                
+                <Button Content="Otwórz" Margin="5" Padding="5" Click="Open_Click"/>
+                <Button Content="Reset" Margin="5" Padding="5" Click="Reset_Click"/>
+                <Button Content="Zapisz" Margin="5" Padding="5" Click="Save_Click"/>
+                <Button Content="Porównaj" Margin="5" Padding="5" Click="Compare_Click"/>
 
-            <Button Content="Otwórz" Margin="5" Padding="5" Click="Open_Click"/>
-            <Button Content="Reset" Margin="5" Padding="5" Click="Reset_Click"/>
-            <Button Content="Zapisz" Margin="5" Padding="5" Click="Save_Click"/>
-            <Button Content="Otsu"      Margin="5" Padding="5" Click="Otsu_Click"/>
-            
-            <Button Content="K3M" Margin="5" Padding="5" Click="K3M_Click"/>
-            <Button Content="KMM" Margin="5" Padding="5" Click="KMM_Click"/>
-            <Button Content="Crossing Number" Margin="5" Padding="5" Click="CN_Click"/>
-            <Label Content="Ilość minucji"></Label>
-            <Label x:Name="EndMin" Content="Ending:"></Label>
-            <Label x:Name="BifMin" Content="Bifurcation:"></Label>
-            <Label x:Name="CrossMin" Content="Crossing: "></Label>
-            <!--<Button Content="Median"    Margin="5" Padding="5" Click="Median_Click"/>
-            <Button Content="Sharpen"   Margin="5" Padding="5" Click="Sharpen_Click"/>
-            <Button Content="Threshold" Margin="5" Padding="5" Click="Threshold_Click"/>
-            <Slider 
+                <Button Content="K3M" Margin="5" Padding="5" Click="K3M_Click"/>
+                <Button Content="KMM" Margin="5" Padding="5" Click="KMM_Click"/>
+                <Button Content="Crossing Number" Margin="5" Padding="5" Click="CN_Click"/>
+                <Button Content="Otsu"      Margin="5" Padding="5" Click="Otsu_Click"/>
+               
+                
+                <Button Content="Median"    Margin="5" Padding="5" Click="Median_Click"/>
+                <Button Content="Sharpen"   Margin="5" Padding="5" Click="Sharpen_Click"/>
+                <Button Content="Kuwahara"   Margin="5" Padding="5" Click="Kuwahara_Click"/>
+                <Button Content="Threshold" Margin="5" Padding="5" Click="Threshold_Click"/>
+                <Slider 
                 Minimum="0" 
                 Maximum="255" 
                 SmallChange="1" 
@@ -38,15 +42,15 @@
                 AutoToolTipPlacement="TopLeft"
                 />
 
-            <Button Content="Niblack"   Margin="5" Padding="5" Click="Niblack_Click"/>
-            <Slider 
+                <Button Content="Niblack"   Margin="5" Padding="5" Click="Niblack_Click"/>
+                <Slider 
                 Minimum="-2" 
                 Maximum="2" 
                 SmallChange="0.1"
                 Value="{Binding NiblackRatio}"
                 AutoToolTipPlacement="TopLeft"
                 />
-            <Slider 
+                <Slider 
                 Minimum="-10" 
                 Maximum="10" 
                 SmallChange="0.1"
@@ -55,15 +59,15 @@
                 />
 
 
-            <Button Content="Sauvola"   Margin="5" Padding="5" Click="Savuola_Click"/>
-            <Slider 
+                <Button Content="Sauvola"   Margin="5" Padding="5" Click="Savuola_Click"/>
+                <Slider 
                 Minimum="-1" 
                 Maximum="1" 
                 SmallChange="0.01"
                 Value="{Binding SauvolaRatio}"
                 AutoToolTipPlacement="TopLeft"
                 />
-            <Slider 
+                <Slider 
                 Minimum="-2" 
                 Maximum="2" 
                 SmallChange="0.01"
@@ -72,25 +76,62 @@
                 />
 
 
-            <Button Content="Phansalkar"   Margin="5" Padding="5" Click="Phansalkar_Click"/>
-            <Slider Minimum="-10" Maximum="10" SmallChange="0.1" Value="{Binding PhansalkarPow  }" AutoToolTipPlacement="TopLeft" /> 
-            <Slider Minimum="-10" Maximum="10" SmallChange="0.1" Value="{Binding PhansalkarQ    }" AutoToolTipPlacement="TopLeft" /> 
-            <Slider Minimum="-1" Maximum="1" SmallChange="0.01" Value="{Binding PhansalkarRatio}" AutoToolTipPlacement="TopLeft" /> 
-            <Slider Minimum="-10" Maximum="10" SmallChange="0.1" Value="{Binding PhansalkarDiv  }" AutoToolTipPlacement="TopLeft" />
+                <Button Content="Phansalkar"   Margin="5" Padding="5" Click="Phansalkar_Click"/>
+                <Slider Minimum="-10" Maximum="10" SmallChange="0.1" Value="{Binding PhansalkarPow  }" AutoToolTipPlacement="TopLeft" />
+                <Slider Minimum="-10" Maximum="10" SmallChange="0.1" Value="{Binding PhansalkarQ    }" AutoToolTipPlacement="TopLeft" />
+                <Slider Minimum="-1" Maximum="1" SmallChange="0.01" Value="{Binding PhansalkarRatio}" AutoToolTipPlacement="TopLeft" />
+                <Slider Minimum="-10" Maximum="10" SmallChange="0.1" Value="{Binding PhansalkarDiv  }" AutoToolTipPlacement="TopLeft" />
 
-            <Button Content="Grayscale"   Margin="5" Padding="5" Click="Grayscale_Click"/>
+                <Button Content="Grayscale"   Margin="5" Padding="5" Click="Grayscale_Click"/>
 
-            <Button Content="Pixelize" Margin="5" Padding="5" Click="Pixelize_Click"/>
+                <!--<Button Content="Pixelize" Margin="5" Padding="5" Click="Pixelize_Click"/>-->
 
-            <Button Content="Reset" Margin="5" Padding="5" Click="Reset_Click"/>
+                <!--<Button Content="Reset" Margin="5" Padding="5" Click="Reset_Click"/>-->
 
-            <Slider Minimum="0" Maximum="100" Name="MainSlider" ValueChanged="MainSlider_ValueChanged" />
+                <!--<Slider Minimum="0" Maximum="100" Name="MainSlider" ValueChanged="MainSlider_ValueChanged" />
 
             
 
             <Label Name="MainLabel"/>-->
 
-        </StackPanel>
-        <Image Grid.Column="1" Name="MainImage" />
+            </StackPanel>
+        </ScrollViewer>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label x:Name="mainFileNameLabel" Grid.Row="0" HorizontalAlignment="Center" FontSize="18"
+                   ></Label>
+        <Image HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" Name="MainImage" Margin="20 20" />
+            
+        </Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label  x:Name="compareFileNameLabel" HorizontalAlignment="Center" 
+                   FontSize="18" Grid.Row="0"></Label>
+            <Image Grid.Row="1" Grid.Column="2" Name="CompareImage" />
+        </Grid>
+        <Grid Grid.Column="3" >
+            <StackPanel>
+          
+            <Label Content="Minucje orginał" FontSize="15" FontWeight="Bold"></Label>
+            <Label x:Name="EndMinMain" Content="Ending:"></Label>
+            <Label x:Name="BifMinMain" Content="Bifurcation:"></Label>
+            <Label x:Name="CrossMinMain" Content="Crossing: "></Label>
+
+            <Label Content="Minucje drugi" FontSize="15" FontWeight="Bold"></Label>
+            <Label x:Name="EndMinComp" Content="Ending:"></Label>
+            <Label x:Name="BifMinComp" Content="Bifurcation:"></Label>
+            <Label x:Name="CrossMinComp" Content="Crossing: "></Label>
+                
+            <Label HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" Margin="0 50 0 0" Content="Podbieństwo"></Label>
+            <Label x:Name="similarityLabel" HorizontalAlignment="Center"  Content=""></Label>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Window>
