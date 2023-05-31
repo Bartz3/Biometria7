@@ -258,7 +258,7 @@ namespace WpfApp
 		}
 
 		private Bitmap bitmap;
-		private string Filename = "finger4.png";
+		private string Filename = "finger2.png";
 
 		private void K3M_Click(object sender, RoutedEventArgs e)
 		{

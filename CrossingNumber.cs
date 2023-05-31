@@ -22,6 +22,7 @@ namespace WpfApp
 			minutiaes.Add(MinutiaeType.Ending, m1);
 			minutiaes.Add(MinutiaeType.Bifurcation, m1);
 			minutiaes.Add(MinutiaeType.Crossing, m4);
+
 			var data = bmp.LockBits(ImageLockMode.ReadWrite);
 
 			int stride = data.Stride;
