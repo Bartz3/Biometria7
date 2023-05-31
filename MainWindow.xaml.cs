@@ -22,7 +22,8 @@ namespace WpfApp
     {
         private Bitmap bitmap;
         private Bitmap bitmapTmp;
-        private string Filename = "finger4.png";
+        private string MainFilename = "finger4.png";
+        private string CompareFilename = "";
         private bool comparisonMode = false;
 
         private double phansalkarPow = 2;
@@ -30,17 +31,21 @@ namespace WpfApp
         private double phansalkarRatio = 0.5;
         private double phansalkarDiv = 0.25;
 
+        private double similarity = 0;
+
         private int mtEndingMain = 0, mtBifMain = 0, mtCrossMain = 0;
         private int mtEndingCompare = 0, mtBifCompare = 0, mtCrossCompare = 0;
 
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
             WindowState = WindowState.Maximized;
-            this.bitmap = new Bitmap(Filename);
+            
+            this.bitmap = new Bitmap(MainFilename);
             bitmapTmp = bitmap;
             this.MainImage.Source = CreateBitmapSource(bitmap);
-            this.DataContext = this;
+            mainFileNameLabel.Content = MainFilename;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -50,6 +55,13 @@ namespace WpfApp
             field = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(field)));
         }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
 
         public bool IsAutoRefreshOn
         {
@@ -246,7 +258,7 @@ namespace WpfApp
         //private void MainSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) =>
         //	this.MainLabel.Content = (int)this.MainSlider.Value;
 
-        private Bitmap GetBitmap() => IsAutoRefreshOn ? new Bitmap(Filename) : bitmap;
+        private Bitmap GetBitmap() => IsAutoRefreshOn ? new Bitmap(MainFilename) : bitmap;
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -257,7 +269,7 @@ namespace WpfApp
                 bitmap.Save(saveFileDialog.FileName, ImageFormat.Png);
             }
             else { MessageBox.Show("Brak bitmapy do zapisania!"); }
-            this.bitmap?.Save(Filename);
+            this.bitmap?.Save(MainFilename);
         }
 
         private void K3M_Click(object sender, RoutedEventArgs e)
@@ -288,6 +300,7 @@ namespace WpfApp
                 this.mtBifCompare = minutiae[MinutiaeType.Bifurcation];
                 this.mtCrossCompare = minutiae[MinutiaeType.Crossing];
 
+
                 MinutiaesSimilarity();
             }
 
@@ -296,13 +309,18 @@ namespace WpfApp
         }
         private void MinutiaesSimilarity()
         {
-            int endDiff, bifDiff, crossDif, similarity;
-            CalculateFingerprintSimilarity(mtEndingMain, mtBifMain, mtCrossMain);
-            endDiff = Math.Abs(mtEndingMain - mtEndingCompare);
-            bifDiff = Math.Abs(mtBifMain - mtBifCompare);
-            crossDif = Math.Abs(mtCrossMain - mtCrossCompare);
+            //endDiff = Math.Abs(mtEndingMain - mtEndingCompare);
+            //bifDiff = Math.Abs(mtBifMain - mtBifCompare);
+            //crossDif = Math.Abs(mtCrossMain - mtCrossCompare);
+            //similarity = 100 - ((endDiff + bifDiff + crossDif) / (mtEndingMain + mtBifMain + mtCrossMain)) * 100;
+            double mainSum, compareSum;
             
-            similarity = 100 - ((endDiff + bifDiff + crossDif) / (mtEndingMain + mtBifMain + mtCrossMain)) * 100;
+            mainSum = (mtEndingMain + mtBifMain + mtCrossMain);
+            compareSum = (mtEndingCompare + mtBifCompare + mtCrossCompare);
+            similarity = Math.Round((mainSum/compareSum)*100,2);
+
+            similarityLabel.Content= similarity + "%";
+            
 
         }
         private double CalculateFingerprintSimilarity(int minutiaeTypeA, int minutiaeTypeB, int minutiaeTypeC)
@@ -327,6 +345,7 @@ namespace WpfApp
                 EndMinComp.Content = $"Ending: 0";
                 BifMinComp.Content = $"Bifurcation: 0";
                 CrossMinComp.Content = $"Crossing: 0";
+                similarityLabel.Content = "";
             }
             else
             {
@@ -344,16 +363,18 @@ namespace WpfApp
         private void Compare_Click(object sender, RoutedEventArgs e)
         {
             comparisonMode = true;
-            this.CompareImage.Source = CreateBitmapSource(bitmap);
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png|All files (*.*)|*.*";
 
             if (openFileDialog.ShowDialog() == true)
             {
+                this.CompareImage.Source = CreateBitmapSource(bitmap);
                 this.bitmap = new Bitmap(openFileDialog.FileName);
                 this.MainImage.Source = CreateBitmapSource(bitmap);
-                Filename = openFileDialog.FileName;
+                compareFileNameLabel.Content = MainFilename;
+                MainFilename = openFileDialog.FileName;
+                mainFileNameLabel.Content = MainFilename;
 
             }
         }
@@ -367,19 +388,22 @@ namespace WpfApp
             {
                 this.bitmap = new Bitmap(openFileDialog.FileName);
                 this.MainImage.Source = CreateBitmapSource(bitmap);
-                Filename = openFileDialog.FileName;
+                MainFilename = openFileDialog.FileName;
                 bitmapTmp = bitmap;
             }
+            mainFileNameLabel.Content=openFileDialog.FileName;
             ShowMinutiaesCounter(true);
         }
 
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
             ShowMinutiaesCounter(true);
-            this.bitmap = new Bitmap(Filename);
+            this.bitmap = new Bitmap(MainFilename);
             this.MainImage.Source = CreateBitmapSource(bitmapTmp);
             this.comparisonMode = false;
             this.CompareImage.Source = null;
+            mainFileNameLabel.Content= MainFilename;
+            compareFileNameLabel.Content = "";
         }
 
 

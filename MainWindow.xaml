@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
+        Background="AliceBlue"
         Title="MainWindow" Height="569" Width="800">
     <Grid Margin="0,0,10,8">
         <Grid.ColumnDefinitions>
@@ -17,8 +18,7 @@
 
             <StackPanel Grid.Column="0"  ScrollViewer.VerticalScrollBarVisibility="Auto" Height="879" Width="109">
                 <CheckBox Content="AutoRefresh" IsChecked="{Binding IsAutoRefreshOn}"/>
-
-
+                
                 <Button Content="Otwórz" Margin="5" Padding="5" Click="Open_Click"/>
                 <Button Content="Reset" Margin="5" Padding="5" Click="Reset_Click"/>
                 <Button Content="Zapisz" Margin="5" Padding="5" Click="Save_Click"/>
@@ -98,18 +98,22 @@
         </ScrollViewer>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="6*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
             </Grid.RowDefinitions>
-        <Image Grid.Column="1" Grid.Row="0" Name="MainImage" Margin="1,0,347,8"  />
+            <Label x:Name="mainFileNameLabel" Grid.Row="0" HorizontalAlignment="Center" FontSize="18"
+                   ></Label>
+        <Image HorizontalAlignment="Center"  Grid.Column="1" Grid.Row="1" Name="MainImage" Margin="20 20" />
             
         </Grid>
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="6*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Image Grid.Column="2" Name="CompareImage" Margin="1,0,347,8"  />
+            <Label  x:Name="compareFileNameLabel" HorizontalAlignment="Center" 
+                   FontSize="18" Grid.Row="0"></Label>
+            <Image Grid.Row="1" Grid.Column="2" Name="CompareImage" />
         </Grid>
         <Grid Grid.Column="3" >
             <StackPanel>
@@ -124,7 +128,8 @@
             <Label x:Name="BifMinComp" Content="Bifurcation:"></Label>
             <Label x:Name="CrossMinComp" Content="Crossing: "></Label>
                 
-            <Label FontSize="15" FontWeight="Bold" Margin="0 50" Content="Podbieństwo"></Label>
+            <Label HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" Margin="0 50 0 0" Content="Podbieństwo"></Label>
+            <Label x:Name="similarityLabel" HorizontalAlignment="Center"  Content=""></Label>
             </StackPanel>
         </Grid>
 
