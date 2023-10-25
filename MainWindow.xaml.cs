@@ -22,7 +22,7 @@ namespace WpfApp
     {
         private Bitmap bitmap;
         private Bitmap bitmapTmp;
-        private string MainFilename = "finger4.png";
+        private string MainFilename = "finger2.png";
         private string CompareFilename = "";
         private bool comparisonMode = false;
 
@@ -318,6 +318,12 @@ namespace WpfApp
             mainSum = (mtEndingMain + mtBifMain + mtCrossMain);
             compareSum = (mtEndingCompare + mtBifCompare + mtCrossCompare);
             similarity = Math.Round((mainSum/compareSum)*100,2);
+
+            if (similarity > 100)
+            {
+                double pom = similarity - 100;
+                similarity = similarity - pom;
+            }
 
             similarityLabel.Content= similarity + "%";
             
