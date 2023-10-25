@@ -22,7 +22,7 @@ namespace WpfApp
     {
         private Bitmap bitmap;
         private Bitmap bitmapTmp;
-        private string MainFilename = "finger2.png";
+        private string MainFilename = "lenna.png";
         private string CompareFilename = "";
         private bool comparisonMode = false;
 
@@ -41,7 +41,7 @@ namespace WpfApp
             InitializeComponent();
             this.DataContext = this;
             WindowState = WindowState.Maximized;
-            
+
             this.bitmap = new Bitmap(MainFilename);
             bitmapTmp = bitmap;
             this.MainImage.Source = CreateBitmapSource(bitmap);
@@ -240,14 +240,25 @@ namespace WpfApp
 
         private void Kuwahara_Click(object sender, RoutedEventArgs e)
         {
+            this.bitmap = Effects.KuwaharaBlur(this.bitmap, 2);
+            this.MainImage.Source = CreateBitmapSource(bitmap);
+        }
 
+        private void Sobel_Click(object sender, RoutedEventArgs e)
+        {
+            this.bitmap = Effects.Sobel(this.bitmap);
+            this.MainImage.Source = CreateBitmapSource(bitmap);
         }
         private void Pixelize_Click(object sender, RoutedEventArgs e)
         {
             this.bitmap = Effects.Pixelize(this.bitmap);
             this.MainImage.Source = CreateBitmapSource(bitmap);
         }
-
+        private void Gauss_Click(object sender, RoutedEventArgs e)
+        {
+            this.bitmap = Effects.GaussBlur(this.bitmap);
+            this.MainImage.Source = CreateBitmapSource(bitmap);
+        }
         private void Threshold_Click(object sender, RoutedEventArgs e)
         {
             this.bitmap = Effects.Threshold(GetBitmap(), this.threshold);
@@ -314,10 +325,10 @@ namespace WpfApp
             //crossDif = Math.Abs(mtCrossMain - mtCrossCompare);
             //similarity = 100 - ((endDiff + bifDiff + crossDif) / (mtEndingMain + mtBifMain + mtCrossMain)) * 100;
             double mainSum, compareSum;
-            
+
             mainSum = (mtEndingMain + mtBifMain + mtCrossMain);
             compareSum = (mtEndingCompare + mtBifCompare + mtCrossCompare);
-            similarity = Math.Round((mainSum/compareSum)*100,2);
+            similarity = Math.Round((mainSum / compareSum) * 100, 2);
 
             if (similarity > 100)
             {
@@ -325,8 +336,8 @@ namespace WpfApp
                 similarity = similarity - pom;
             }
 
-            similarityLabel.Content= similarity + "%";
-            
+            similarityLabel.Content = similarity + "%";
+
 
         }
         private double CalculateFingerprintSimilarity(int minutiaeTypeA, int minutiaeTypeB, int minutiaeTypeC)
@@ -338,6 +349,7 @@ namespace WpfApp
 
             return jaccardIndex;
         }
+
 
 
         private void ShowMinutiaesCounter(bool reset) //1-reset
@@ -397,7 +409,7 @@ namespace WpfApp
                 MainFilename = openFileDialog.FileName;
                 bitmapTmp = bitmap;
             }
-            mainFileNameLabel.Content=openFileDialog.FileName;
+            mainFileNameLabel.Content = openFileDialog.FileName;
             ShowMinutiaesCounter(true);
         }
 
@@ -408,7 +420,7 @@ namespace WpfApp
             this.MainImage.Source = CreateBitmapSource(bitmapTmp);
             this.comparisonMode = false;
             this.CompareImage.Source = null;
-            mainFileNameLabel.Content= MainFilename;
+            mainFileNameLabel.Content = MainFilename;
             compareFileNameLabel.Content = "";
         }
 

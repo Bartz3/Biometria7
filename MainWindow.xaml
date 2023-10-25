@@ -22,17 +22,19 @@
                 <Button Content="Otwórz" Margin="5" Padding="5" Click="Open_Click"/>
                 <Button Content="Reset" Margin="5" Padding="5" Click="Reset_Click"/>
                 <Button Content="Zapisz" Margin="5" Padding="5" Click="Save_Click"/>
-                <Button Content="Porównaj" Margin="5" Padding="5" Click="Compare_Click"/>
+                <!--<Button Content="Porównaj" Margin="5" Padding="5" Click="Compare_Click"/>-->
+                <Button Content="1.sKuwahara-wygl"   Margin="5" Padding="5" Click="Kuwahara_Click"/>
+                <Button Content="2.Median"    Margin="5" Padding="5" Click="Median_Click"/>
+                <Button Content="3.Sobel"    Margin="5" Padding="5" Click="Sobel_Click"/>
+                <Button Content="4.Sharpen"   Margin="5" Padding="5" Click="Sharpen_Click"/>
+                <Button Content="5.GaussBlur"   Margin="5" Padding="5" Click="Gauss_Click"/>
 
-                <Button Content="K3M" Margin="5" Padding="5" Click="K3M_Click"/>
-                <Button Content="KMM" Margin="5" Padding="5" Click="KMM_Click"/>
-                <Button Content="Crossing Number" Margin="5" Padding="5" Click="CN_Click"/>
-                <Button Content="Otsu"      Margin="5" Padding="5" Click="Otsu_Click"/>
+              
+                
+                <!--<Button Content="Crossing Number" Margin="5" Padding="5" Click="CN_Click"/>-->
+                <!--<Button Content="Otsu"      Margin="5" Padding="5" Click="Otsu_Click"/>-->
                
                 
-                <Button Content="Median"    Margin="5" Padding="5" Click="Median_Click"/>
-                <Button Content="Sharpen"   Margin="5" Padding="5" Click="Sharpen_Click"/>
-                <Button Content="Kuwahara"   Margin="5" Padding="5" Click="Kuwahara_Click"/>
                 <Button Content="Threshold" Margin="5" Padding="5" Click="Threshold_Click"/>
                 <Slider 
                 Minimum="0" 
